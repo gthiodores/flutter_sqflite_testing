@@ -15,6 +15,22 @@ class NotesListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     my_state.State<NotesList> noteState = ref.watch(notesListNotifier);
+    ref.listen<my_state.State<NotesList>>(notesListNotifier, (previous, next) {
+      next.when(
+          success: (success) {
+            if (success.message == null) return;
+
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(success.message!)));
+          },
+          loading: (_) {},
+          failure: (failure) {
+            if (failure.message == null) return;
+
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(failure.message!)));
+          });
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notes"),

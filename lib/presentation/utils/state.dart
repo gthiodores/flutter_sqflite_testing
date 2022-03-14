@@ -1,11 +1,11 @@
 class State<T> {
   State._(); // Default constructor
 
-  factory State.success(T data) = Success;
+  factory State.success(T data, {String? message}) = Success;
 
   factory State.loading({T? data}) = Loading;
 
-  factory State.failure(Object exception, {T? data}) = Failure;
+  factory State.failure(Object exception, {T? data, String? message}) = Failure;
 
   /// Helper function to transform the State class with the 3 mapper functions
   /// passed in as parameters.
@@ -49,13 +49,15 @@ class Loading<T> extends State<T> {
 
 class Success<T> extends State<T> {
   final T data;
+  final String? message;
 
-  Success(this.data) : super._();
+  Success(this.data, {this.message}) : super._();
 }
 
 class Failure<T> extends State<T> {
   final T? data;
   final Object? exception;
+  final String? message;
 
-  Failure(this.exception, {this.data}) : super._();
+  Failure(this.exception, {this.data, this.message}) : super._();
 }

@@ -49,9 +49,9 @@ class NotesNotifier extends StateNotifier<State<NotesList>> {
     try {
       await _insertNote.execute(note);
       _items.add(note);
-      state = State.success(_items);
+      state = State.success(_items, message: "Successfully added new note.");
     } catch (e) {
-      state = State.failure(e, data: _items);
+      state = State.failure(e, data: _items, message: "Failed to add note.");
     }
   }
 
@@ -61,9 +61,9 @@ class NotesNotifier extends StateNotifier<State<NotesList>> {
       final _newNote = await _updateNote.execute(note);
       final _index = _items.indexWhere((oldNote) => oldNote.id == _newNote.id);
       _items[_index] = _newNote;
-      state = State.success(_items);
+      state = State.success(_items, message: "Successfully updated note.");
     } catch (e) {
-      state = State.failure(e, data: _items);
+      state = State.failure(e, data: _items, message: "Failed to update note.");
     }
   }
 
@@ -72,9 +72,9 @@ class NotesNotifier extends StateNotifier<State<NotesList>> {
     try {
       await _deleteNote.execute(id);
       _items.removeWhere((note) => note.id == id);
-      state = State.success(_items);
+      state = State.success(_items, message: "Successfully removed note.");
     } catch (e) {
-      state = State.failure(e, data: _items);
+      state = State.failure(e, data: _items, message: "Failed to delete note.");
     }
   }
 }
