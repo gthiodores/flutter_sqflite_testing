@@ -7,6 +7,7 @@ import 'package:flutter_sqflite_testing/presentation/utils/state.dart'
     as my_state;
 import 'package:flutter_sqflite_testing/presentation/widgets/failure_widget.dart';
 import 'package:flutter_sqflite_testing/presentation/widgets/loading_widget.dart';
+import 'package:flutter_sqflite_testing/presentation/widgets/notes_list_item_view.dart';
 
 class NotesListScreen extends ConsumerWidget {
   const NotesListScreen({Key? key}) : super(key: key);
@@ -87,24 +88,18 @@ class NotesListScreen extends ConsumerWidget {
       itemBuilder: ((context, index) {
         if (index < notes.length) {
           final note = notes[index];
-          return Dismissible(
-            key: Key(note.id.toString()),
-            onDismissed: (direction) {
+          return NotesListItemView(
+            note,
+            onDismissed: () {
               onDismiss?.call(note.id);
             },
-            background: Container(
-              color: Colors.red,
-            ),
-            child: ListTile(
-              title: Text(note.title),
-              subtitle: Text(note.description),
-              onTap: () {
-                onTap?.call(note.id);
-              },
-            ),
+            onTap: () {
+              onTap?.call(note.id);
+            },
           );
         }
 
+        // Shows loading if loading additional data or an empty box otherwise.
         if (loading) {
           return const LoadingWidget();
         } else {
