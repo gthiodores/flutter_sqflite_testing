@@ -27,6 +27,11 @@ class NotesListScreen extends ConsumerWidget {
               NotesDetailScreen.route,
               arguments: id,
             );
+          }, onDismiss: (id) {
+            if (id == null) return;
+
+            final notifier = ref.read(notesListNotifier.notifier);
+            notifier.removeNote(id);
           });
         },
         loading: (loading) {
@@ -37,6 +42,11 @@ class NotesListScreen extends ConsumerWidget {
               NotesDetailScreen.route,
               arguments: id,
             );
+          }, onDismiss: (id) {
+            if (id == null) return;
+
+            final notifier = ref.read(notesListNotifier.notifier);
+            notifier.removeNote(id);
           });
         },
         failure: (failure) {
@@ -49,6 +59,11 @@ class NotesListScreen extends ConsumerWidget {
                     NotesDetailScreen.route,
                     arguments: id,
                   );
+                }, onDismiss: (id) {
+                  if (id == null) return;
+
+                  final notifier = ref.read(notesListNotifier.notifier);
+                  notifier.removeNote(id);
                 });
         },
       ),
@@ -66,17 +81,27 @@ class NotesListScreen extends ConsumerWidget {
     NotesList notes,
     bool loading, {
     Function(int?)? onTap,
+    Function(int?)? onDismiss,
   }) {
     return ListView.builder(
       itemBuilder: ((context, index) {
         if (index < notes.length) {
           final note = notes[index];
-          return ListTile(
-            title: Text(note.title),
-            subtitle: Text(note.description),
-            onTap: () {
-              onTap?.call(note.id);
+          return Dismissible(
+            key: Key(note.id.toString()),
+            onDismissed: (direction) {
+              onDismiss?.call(note.id);
             },
+            background: Container(
+              color: Colors.red,
+            ),
+            child: ListTile(
+              title: Text(note.title),
+              subtitle: Text(note.description),
+              onTap: () {
+                onTap?.call(note.id);
+              },
+            ),
           );
         }
 

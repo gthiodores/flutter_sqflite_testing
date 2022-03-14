@@ -9,4 +9,6 @@ A flutter project to test out sqflite
 3. [Sqflite](https://pub.dev/packages/sqflite) to create and manipulate the database.
 
 ## Improvements
-Can use other libraries/plugins to allow streams to be emitted from the database to remove some boilerplate code.
+1. Can use other libraries/plugins/packages to allow streams to be emitted from the database to remove some boilerplate code.
+2. Can use a different database library/plugin/package to generate codes instead.
+3. Add messages to the State class to generate snackbar messages with them.
